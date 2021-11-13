@@ -1,16 +1,12 @@
-package com.emse.spring.faircorp;
+package com.emse.spring.faircorp.service;
 
 import com.emse.spring.faircorp.dao.*;
 import com.emse.spring.faircorp.model.*;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Service;
 
-import java.util.Properties;
-
-@SpringBootTest
-class FaircorpApplicationTests {
-
+@Service
+public class InitService {
     @Autowired
     BuildingDao buildingDao;
     @Autowired
@@ -22,8 +18,9 @@ class FaircorpApplicationTests {
     @Autowired
     HeaterDao heaterDao;
 
-    @Test
-    void init() {
+    public void init() {
+        buildingDao.deleteAll();
+
         Building emse = new Building();
         emse.setName("EMSE");
         emse = buildingDao.save(emse);
@@ -38,13 +35,13 @@ class FaircorpApplicationTests {
                 room.setFloor(floor);
                 room.setName("Room_"+floor+"_"+roomNum);
                 room.setTargetTemperature(20d);
-                room.setCurrentTemperature(Math.random()*15+5);
+                room.setCurrentTemperature(Math.floor(Math.random()*15+5));
                 room=roomDao.save(room);
                 for (int doorNum=0;doorNum<Math.floor(Math.random()*3+1);doorNum++){
                     Door door = new Door();
                     door.setRoom(room);
                     door.setName("Door_"+floor+"_"+roomNum+"_"+doorNum);
-                    door.setStatus(Math.random()<0.5?DoorStatus.OPEN:DoorStatus.CLOSED);
+                    door.setStatus(Math.random()<0.5? DoorStatus.OPEN:DoorStatus.CLOSED);
                     doorDao.save(door);
                 }
                 for (int windowNum=0;windowNum<Math.floor(Math.random()*6+2);windowNum++){
@@ -66,5 +63,4 @@ class FaircorpApplicationTests {
         }
 
     }
-
 }

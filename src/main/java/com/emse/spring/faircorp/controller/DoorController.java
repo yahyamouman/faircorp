@@ -52,7 +52,7 @@ public class DoorController {
         return new DoorDto(door);
     }
 
-    @PostMapping(path = "/add")
+    @PostMapping(path = "/")
     public DoorDto create(@RequestBody DoorDto dto) {
         Room room = roomDao.getById(dto.getRoomId());
         Door door;
