@@ -18,6 +18,10 @@ public class InitService {
     @Autowired
     HeaterDao heaterDao;
 
+
+    /**
+     * initializes the database with dummy data
+     */
     public void init() {
         buildingDao.deleteAll();
 
