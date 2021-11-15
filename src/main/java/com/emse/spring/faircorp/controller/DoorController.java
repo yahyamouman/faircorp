@@ -9,11 +9,14 @@ import com.emse.spring.faircorp.model.DoorStatus;
 import com.emse.spring.faircorp.service.DoorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/faircorp/door")
+@Transactional
 public class DoorController {
 
     @Autowired
