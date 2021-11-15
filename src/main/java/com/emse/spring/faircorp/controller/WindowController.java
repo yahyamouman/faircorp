@@ -49,6 +49,7 @@ public class WindowController {
         }
         else {
             window = windowDao.getById(dto.getId());
+            window.setName(dto.getName());
             window.setStatus(dto.getWindowStatus());
         }
         return new WindowDto(window);
