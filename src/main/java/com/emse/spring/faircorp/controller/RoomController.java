@@ -37,7 +37,7 @@ public class RoomController {
         roomDao.deleteById(room_id);
     }
 
-    @PostMapping(path = "/")
+    @PostMapping
     public RoomDto create(@RequestBody RoomDto dto) {
         Building building = buildingDao.getById(dto.getBuildingId());
         Room room;
