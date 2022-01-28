@@ -40,7 +40,7 @@ public class WindowController {
         return new WindowDto(window);
     }
 
-    @PostMapping(path = "/")
+    @PostMapping
     public WindowDto create(@RequestBody WindowDto dto) {
         Room room = roomDao.getById(dto.getRoomId());
         Window window;
