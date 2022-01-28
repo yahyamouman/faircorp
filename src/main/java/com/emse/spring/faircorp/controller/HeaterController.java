@@ -37,7 +37,7 @@ public class HeaterController {
         heaterDao.deleteById(heater_id);
     }
 
-    @PostMapping(path = "/")
+    @PostMapping
     public HeaterDto create(@RequestBody HeaterDto dto) {
         Room room = roomDao.getById(dto.getRoomId());
         Heater heater;
