@@ -33,7 +33,7 @@ public class BuildingController {
         buildingDao.deleteById(building_id);
     }
 
-    @PostMapping(path = "/")
+    @PostMapping
     public BuildingDto create(@RequestBody BuildingDto dto) {
         Building building;
         if (dto.getId() == null) {
