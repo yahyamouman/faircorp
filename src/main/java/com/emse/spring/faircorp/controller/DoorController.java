@@ -6,6 +6,7 @@ import com.emse.spring.faircorp.dto.DoorDto;
 import com.emse.spring.faircorp.model.Room;
 import com.emse.spring.faircorp.model.Door;
 import com.emse.spring.faircorp.model.DoorStatus;
+import com.emse.spring.faircorp.model.Window;
 import com.emse.spring.faircorp.service.DoorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,14 +59,9 @@ public class DoorController {
     @PostMapping
     public DoorDto create(@RequestBody DoorDto dto) {
         Room room = roomDao.getById(dto.getRoomId());
-        Door door;
-        if (dto.getId() == null) {
-            door = doorDao.save(new Door(dto.getName(), dto.getDoorStatus(), room));
-        }
-        else {
-            door = doorDao.getById(dto.getId());
-            door.setStatus(dto.getDoorStatus());
-        }
+        Door door = new Door(dto.getName(), dto.getDoorStatus(), room);
+        door = doorDao.saveAndFlush(door);
+        room = roomDao.saveAndFlush(room);
         return new DoorDto(door);
     }
 

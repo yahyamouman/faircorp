@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,15 +44,9 @@ public class WindowController {
     @PostMapping
     public WindowDto create(@RequestBody WindowDto dto) {
         Room room = roomDao.getById(dto.getRoomId());
-        Window window;
-        if (dto.getId() == null) {
-            window = windowDao.save(new Window(dto.getName(), dto.getWindowStatus(), room));
-        }
-        else {
-            window = windowDao.getById(dto.getId());
-            window.setName(dto.getName());
-            window.setStatus(dto.getWindowStatus());
-        }
+        Window window = new Window(dto.getName(), dto.getWindowStatus(), room);
+        window = windowDao.saveAndFlush(window);
+        room = roomDao.saveAndFlush(room);
         return new WindowDto(window);
     }
 

@@ -36,12 +36,7 @@ public class BuildingController {
     @PostMapping
     public BuildingDto create(@RequestBody BuildingDto dto) {
         Building building;
-        if (dto.getId() == null) {
-            building = buildingDao.save(new Building(dto.getId(), dto.getName()));
-        } else {
-            building = buildingDao.getById(dto.getId());
-            building.setName(dto.getName());
-        }
+        building = buildingDao.save(new Building(dto.getId(), dto.getName()));
         return new BuildingDto(building);
     }
 }

@@ -5,6 +5,7 @@ import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dto.HeaterDto;
 import com.emse.spring.faircorp.model.Heater;
 import com.emse.spring.faircorp.model.Room;
+import com.emse.spring.faircorp.model.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -40,16 +41,9 @@ public class HeaterController {
     @PostMapping
     public HeaterDto create(@RequestBody HeaterDto dto) {
         Room room = roomDao.getById(dto.getRoomId());
-        Heater heater;
-        if (dto.getId() == null) {
-            heater = heaterDao.save(new Heater(dto.getName(), dto.getPower(), room, dto.getHeaterStatus()));
-        } else {
-            heater = heaterDao.getById(dto.getId());
-            heater.setStatus(dto.getHeaterStatus());
-            heater.setName(dto.getName());
-            heater.setPower(dto.getPower());
-            heater.setRoom(room);
-        }
+        Heater heater = new Heater(dto.getName(), dto.getPower(), room, dto.getHeaterStatus());
+        heater = heaterDao.saveAndFlush(heater);
+        room = roomDao.saveAndFlush(room);
         return new HeaterDto(heater);
     }
 }

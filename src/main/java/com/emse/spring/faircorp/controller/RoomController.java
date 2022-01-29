@@ -3,9 +3,11 @@ package com.emse.spring.faircorp.controller;
 import com.emse.spring.faircorp.dao.BuildingDao;
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dto.RoomDto;
+import com.emse.spring.faircorp.dto.WindowDto;
 import com.emse.spring.faircorp.model.Building;
 import com.emse.spring.faircorp.model.Room;
 import com.emse.spring.faircorp.model.Room;
+import com.emse.spring.faircorp.model.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -40,17 +42,9 @@ public class RoomController {
     @PostMapping
     public RoomDto create(@RequestBody RoomDto dto) {
         Building building = buildingDao.getById(dto.getBuildingId());
-        Room room;
-        if (dto.getId() == null) {
-            room = roomDao.save(new Room(dto.getName(), dto.getFloor(), dto.getCurrentTemperature(), dto.getTargetTemperature(), building));
-        } else {
-            room = roomDao.getById(dto.getId());
-            room.setFloor(dto.getFloor());
-            room.setCurrentTemperature(dto.getCurrentTemperature());
-            room.setName(dto.getName());
-            room.setTargetTemperature(dto.getTargetTemperature());
-            room.setBuilding(building);
-        }
+        Room room = new Room(dto.getName(), dto.getFloor(), dto.getCurrentTemperature(), dto.getTargetTemperature(), building);
+        room = roomDao.saveAndFlush(room);
+        building = buildingDao.saveAndFlush(building);
         return new RoomDto(room);
     }
 }
